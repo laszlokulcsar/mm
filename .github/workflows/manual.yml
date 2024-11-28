@@ -1,0 +1,32 @@
+name: Java CI
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger the workflow for pull requests targeting the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The runner to use (Ubuntu)
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # Checkout the code from the repository
+
+    - name: Set up Java 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'  # Use Java 11
+
+    - name: Upload JAR file
+      uses: actions/upload-artifact@v3
+      with:
+        name: ci-cd-check-jar
+        path: ci-cd-check.jar  # Make sure to specify the correct path to the JAR file
+
+    - name: Run ci-cd-check
+      run: |
+        java -jar ci-cd-check.jar remote  # Run the JAR file with the command you mentioned
